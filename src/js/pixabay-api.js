@@ -7,15 +7,17 @@ const searchPhotos = axios.create({
         image_type: 'photo',
         orientation: 'horizontal',
         safesearch: true,
+        per_page: 15,
     },
 });
 
-export function getImagesByQuery(query) {
-    return searchPhotos.get('', { params: { q: query } })
-        .then(res => res.data.hits)
-        .catch(error => {
-            throw error
-        });
+export async function getImagesByQuery(query, currentPage) {
+    try {
+        const res = await searchPhotos.get('', { params: { q: query, page: currentPage } });
+        return res.data;
+    } catch (error) {
+        throw error;
+        }
 }
 
 
